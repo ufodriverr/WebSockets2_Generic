@@ -30,6 +30,7 @@ WebsocketsServer SocketsServer;
 #define BLUE_LED    5
 
 WiFiWebServer server(80);
+IPAddress wifiIP;
 
 void setup()
 { 
@@ -78,6 +79,7 @@ void setup()
   {
     Serial.print("Connected to Wifi, IP address: ");
     Serial.println(WiFi.localIP());
+    wifiIP = WiFi.localIP();
   }
   else
   {
@@ -97,7 +99,8 @@ void setup()
   // handle index
   server.on("/", []()
   {
-    String wsServer = String("'ws://")+WiFi.localIP()+String(":") + WEBSOCKETS_PORT + "/'";
+    String LocalIP = String() + WiFi.localIP()[0] + '.' + WiFi.localIP()[1] + '.' + WiFi.localIP()[2] + '.' + WiFi.localIP()[3];
+    String wsServer = String("'ws://")+LocalIP+ ":" + WEBSOCKETS_PORT + "/'";
     Serial.print("wsServer: ");
     Serial.println(wsServer);
 
